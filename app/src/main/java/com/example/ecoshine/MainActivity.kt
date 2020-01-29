@@ -5,17 +5,13 @@ import android.os.Bundle
 import android.util.Log
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
 import kotlinx.android.synthetic.main.activity_main.*
 import java.text.SimpleDateFormat
 import java.util.*
 import kotlin.collections.HashMap
-import androidx.core.app.ComponentActivity.ExtraData
-import androidx.core.content.ContextCompat.getSystemService
-import android.icu.lang.UCharacter.GraphemeClusterBreak.T
-
-
 
 
 class MainActivity : AppCompatActivity() {
@@ -26,7 +22,7 @@ class MainActivity : AppCompatActivity() {
 
         buttonScan.setOnClickListener {
             val qrscan = IntentIntegrator(this)
-            qrscan?.setOrientationLocked(false)
+//            qrscan?.setOrientationLocked(true)
             qrscan.setRequestCode(0x0000c0de)
             qrscan.initiateScan()
         }
@@ -49,6 +45,19 @@ class MainActivity : AppCompatActivity() {
             Toast.makeText(this, result.contents, Toast.LENGTH_LONG).show()
             textViewName.text = result.contents
             val db = FirebaseFirestore.getInstance()
+            val scannedResult = HashMap<String, String>()
+            scannedResult["house number"] = result.contents
+            val date = SimpleDateFormat("dd-MM-yyyy").format(Date())
+            db.collection(date)
+                .add(scannedResult)
+                .addOnSuccessListener { documentReference ->
+                    textFire.text = "entry added to Firebase\nID: " + documentReference.id + "\nHouse Number: " + scannedResult["house number"]
+                    Log.d("suthar", "DocumentSnapshot added with ID: " + documentReference.id + "content: " + scannedResult["house number"])
+                }
+                .addOnFailureListener { e ->
+                    textFire.text = "Error adding entry to Firebase ! Please try again"
+                    Log.w("suthar", "Error adding document", e)
+                }
         }
     }
 }

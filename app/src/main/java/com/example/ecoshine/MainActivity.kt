@@ -26,6 +26,11 @@ class MainActivity : AppCompatActivity() {
             qrscan.setRequestCode(0x0000c0de)
             qrscan.initiateScan()
         }
+
+        buttonArchive.setOnClickListener {
+            val intent = Intent(this, DatePickActivity::class.java)
+            startActivity(intent)
+        }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -51,13 +51,13 @@ class MainActivity : AppCompatActivity() {
             textViewName.text = result.contents
             val db = FirebaseFirestore.getInstance()
             val scannedResult = HashMap<String, String>()
-            scannedResult["house number"] = result.contents
+            scannedResult["house_number"] = result.contents
             val date = SimpleDateFormat("dd-MM-yyyy").format(Date())
             db.collection(date)
                 .add(scannedResult)
                 .addOnSuccessListener { documentReference ->
-                    textFire.text = "entry added to Firebase\nID: " + documentReference.id + "\nHouse Number: " + scannedResult["house number"]
-                    Log.d("suthar", "DocumentSnapshot added with ID: " + documentReference.id + "content: " + scannedResult["house number"])
+                    textFire.text = "entry added to Firebase\nID: " + documentReference.id + "\nHouse Number: " + scannedResult["house_number"]
+                    Log.d("suthar", "DocumentSnapshot added with ID: " + documentReference.id + "content: " + scannedResult["house_number"])
                 }
                 .addOnFailureListener { e ->
                     textFire.text = "Error adding entry to Firebase ! Please try again"

@@ -57,6 +57,7 @@ class DatePickActivity : AppCompatActivity() {
                     list.add(data)
                     Log.d("suthar", "${document.id} => ${document.data}, $data")
                 }
+                textData.text = "Fetched Data From Server\nTotal Houses Recorded: ${list.size}"
                 productAdapter.updateProductList(list)
             }
             .addOnFailureListener { exception ->
@@ -66,7 +67,7 @@ class DatePickActivity : AppCompatActivity() {
 
     private fun initRecyclerView() {
         recyclerArea.adapter = productAdapter
-        recyclerArea.layoutManager = GridLayoutManager(this, 1)
+        recyclerArea.layoutManager = GridLayoutManager(this, 2)
     }
 
     private fun setTextString(d: Int, m: Int, y: Int) {

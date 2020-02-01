@@ -4,6 +4,7 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
+import androidx.cardview.widget.CardView
 import androidx.recyclerview.widget.RecyclerView
 
 class ProductAdapter : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
@@ -25,13 +26,20 @@ class ProductAdapter : RecyclerView.Adapter<ProductAdapter.MyViewHolder>() {
 
     override fun onBindViewHolder(holder: MyViewHolder, position: Int) {
         holder.bindData(list[position])
+        when {
+            position%2==0 -> holder.itemView.setPadding(4,4,2,4)
+            else -> holder.itemView.setPadding(2,4,4,4)
+        }
     }
 
     inner class MyViewHolder(view: View) : RecyclerView.ViewHolder(view) {
         private val houseItem: TextView = view.findViewById(R.id.houseItem)
+        private val cardView: CardView = view.findViewById(R.id.card_view)
 
         fun bindData(data: ProductModel) {
             houseItem.text = data.house_number
+            cardView.preventCornerOverlap = true
+            cardView.useCompatPadding = true
         }
     }
 }

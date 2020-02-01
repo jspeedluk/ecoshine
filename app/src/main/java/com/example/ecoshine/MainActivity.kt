@@ -62,8 +62,8 @@ class MainActivity : AppCompatActivity() {
                     Log.d("suthar", "DocumentSnapshot added with ID: " + documentReference.id + "content: " + scannedResult["house_number"])
                 }
                 .addOnFailureListener { e ->
-                    textFire.text = "Error adding entry to Firebase ! Please try again"
-                    Log.w("suthar", "Error adding document", e)
+                    textViewName.text = "Error adding to Server!\nPlease Scan again"
+                    Log.w("suthar", "Error adding document to Firestore", e)
                 }
         }
     }

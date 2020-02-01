@@ -3,6 +3,9 @@ package com.example.ecoshine
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
+import android.view.View
+import android.view.View.INVISIBLE
+import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
 import com.google.firebase.firestore.FirebaseFirestore
@@ -19,14 +22,14 @@ class MainActivity : AppCompatActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+        checkButton.visibility = INVISIBLE
 
         buttonScan.setOnClickListener {
             val qrscan = IntentIntegrator(this)
-//            qrscan?.setOrientationLocked(true)
+            checkButton.visibility = INVISIBLE
             qrscan.setRequestCode(0x0000c0de)
             qrscan.initiateScan()
         }
-
         buttonArchive.setOnClickListener {
             val intent = Intent(this, DatePickActivity::class.java)
             startActivity(intent)
@@ -35,7 +38,6 @@ class MainActivity : AppCompatActivity() {
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
         super.onActivityResult(requestCode, resultCode, data)
-
         Log.d("suthar", "Request Code: $requestCode, Result Code: $resultCode")
         val result = IntentIntegrator.parseActivityResult(requestCode, resultCode, data)
         if (result != null) parseQrResult(result)
@@ -56,7 +58,7 @@ class MainActivity : AppCompatActivity() {
             db.collection(date)
                 .add(scannedResult)
                 .addOnSuccessListener { documentReference ->
-                    textFire.text = "entry added to Firebase\nID: " + documentReference.id + "\nHouse Number: " + scannedResult["house_number"]
+                    checkButton.visibility = VISIBLE
                     Log.d("suthar", "DocumentSnapshot added with ID: " + documentReference.id + "content: " + scannedResult["house_number"])
                 }
                 .addOnFailureListener { e ->

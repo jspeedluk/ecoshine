@@ -8,6 +8,7 @@ import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
 import androidx.appcompat.app.AppCompatActivity
+import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.firestore.FirebaseFirestore
 import com.google.zxing.integration.android.IntentIntegrator
 import com.google.zxing.integration.android.IntentResult
@@ -18,11 +19,14 @@ import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
+    private val firebaseAuth = FirebaseAuth.getInstance();
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         checkButton.visibility = INVISIBLE
+
+        initLogin()
 
         buttonScan.setOnClickListener {
             val qrscan = IntentIntegrator(this)
@@ -34,6 +38,26 @@ class MainActivity : AppCompatActivity() {
             val intent = Intent(this, DatePickActivity::class.java)
             startActivity(intent)
         }
+    }
+
+    private fun initLogin(){
+        if(!isLoggedIn())signInFunc()
+    }
+
+    private fun isLoggedIn():Boolean{
+        return firebaseAuth.currentUser != null
+    }
+
+    private fun signInFunc() {
+        firebaseAuth.signInWithEmailAndPassword("jaihind@dosto.com", "Jaihind")
+            .addOnCompleteListener {
+                if(it.isSuccessful){
+                    Toast.makeText(this, "Sign In Successful", Toast.LENGTH_LONG).show()
+                }
+                else {
+                    Toast.makeText(this, it.exception?.message.toString(), Toast.LENGTH_LONG).show()
+                }
+            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {

@@ -3,7 +3,6 @@ package com.example.ecoshine
 import android.content.Intent
 import android.os.Bundle
 import android.util.Log
-import android.view.View
 import android.view.View.INVISIBLE
 import android.view.View.VISIBLE
 import android.widget.Toast
@@ -19,7 +18,7 @@ import kotlin.collections.HashMap
 
 
 class MainActivity : AppCompatActivity() {
-    private val firebaseAuth = FirebaseAuth.getInstance();
+    private val fireBaseAuth = FirebaseAuth.getInstance()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -29,10 +28,10 @@ class MainActivity : AppCompatActivity() {
         initLogin()
 
         buttonScan.setOnClickListener {
-            val qrscan = IntentIntegrator(this)
+            val qrScan = IntentIntegrator(this)
             checkButton.visibility = INVISIBLE
-            qrscan.setRequestCode(0x0000c0de)
-            qrscan.initiateScan()
+            qrScan.setRequestCode(0x0000c0de)
+            qrScan.initiateScan()
         }
         buttonArchive.setOnClickListener {
             val intent = Intent(this, DatePickActivity::class.java)
@@ -45,11 +44,11 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun isLoggedIn():Boolean{
-        return firebaseAuth.currentUser != null
+        return fireBaseAuth.currentUser != null
     }
 
     private fun signInFunc() {
-        firebaseAuth.signInWithEmailAndPassword("jaihind@dosto.com", "Jaihind")
+        fireBaseAuth.signInWithEmailAndPassword("jaihind@dosto.com", "Jaihind")
             .addOnCompleteListener {
                 if(it.isSuccessful){
                     Toast.makeText(this, "Sign In Successful", Toast.LENGTH_LONG).show()

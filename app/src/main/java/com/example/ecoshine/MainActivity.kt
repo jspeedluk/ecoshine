@@ -48,15 +48,17 @@ class MainActivity : AppCompatActivity() {
     }
 
     private fun signInFunc() {
-        fireBaseAuth.signInWithEmailAndPassword("jaihind@dosto.com", "Jaihind")
-            .addOnCompleteListener {
-                if(it.isSuccessful){
-                    Toast.makeText(this, "Sign In Successful", Toast.LENGTH_LONG).show()
-                }
-                else {
-                    Toast.makeText(this, it.exception?.message.toString(), Toast.LENGTH_LONG).show()
-                }
-            }
+        val intent = Intent(this, LoginActivity::class.java)
+        startActivityForResult(intent, 2020)
+//        fireBaseAuth.signInWithEmailAndPassword("jaihind@dosto.com", "Jaihind")
+//            .addOnCompleteListener {
+//                if(it.isSuccessful){
+//                    Toast.makeText(this, "Sign In Successful", Toast.LENGTH_LONG).show()
+//                }
+//                else {
+//                    Toast.makeText(this, it.exception?.message.toString(), Toast.LENGTH_LONG).show()
+//                }
+//            }
     }
 
     override fun onActivityResult(requestCode: Int, resultCode: Int, data: Intent?) {
